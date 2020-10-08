@@ -11,7 +11,7 @@ class vocab(object):
         self.sos_token = sos_token
         self.eos_token = eos_token
         self.unk_token = unk_token
-        self.trimmed = False
+        self.trimmed = False                         # 代表这个词表对象是否经过了剪枝操作
         self.word2index = {"PAD" : pad_token, "SOS" : sos_token, "EOS" : eos_token, "UNK" : unk_token}
         self.word2count = {"UNK" : 0}
         self.index2word = {pad_token : "PAD", sos_token : "SOS", eos_token : "EOS", unk_token : "UNK"}
@@ -102,11 +102,6 @@ def trimAndReplace(voc, pairs, min_count):
 
     print("Trimmed from {} pairs to {}, {:.4f} of total".format(len(pairs), len(keep_pairs), len(keep_pairs) / len(pairs)))
     return keep_pairs
-
-#data = pd.DataFrame(voc.word2count.items(), columns=["word", "count"])
-#data[:20].plot(x="word", y="count", kind="bar")
-#plt.grid(True)
-#plt.show()
 
 # 将一句话转换成id序列(str->list)，结尾加上EOS
 def sentenceToIndex(sentence, voc):
@@ -206,7 +201,6 @@ if __name__ == "__main__":
 
     batch_item_names = ["input_tensor", "input_length_tensor", "output_tensor", "mask", "max_length"]
     for batch_index, batch in enumerate(loader):
-        # for name, item in zip(batch_item_names, batch):
-        #     print(f"\n{name} : {item}")
-        # break
-        print(batch_index)
+        for name, item in zip(batch_item_names, batch):
+            print(f"\n{name} : {item}")
+        break
