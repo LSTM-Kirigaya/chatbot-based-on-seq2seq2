@@ -257,3 +257,4 @@ for epoch in range(epoch_num):
             }, check_point_save_path)
 
             print(f"save model to {check_point_save_path}")
+
