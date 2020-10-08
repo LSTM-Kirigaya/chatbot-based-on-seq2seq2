@@ -103,8 +103,6 @@ def trimAndReplace(voc, pairs, min_count):
     print("Trimmed from {} pairs to {}, {:.4f} of total".format(len(pairs), len(keep_pairs), len(keep_pairs) / len(pairs)))
     return keep_pairs
 
-
-
 #data = pd.DataFrame(voc.word2count.items(), columns=["word", "count"])
 #data[:20].plot(x="word", y="count", kind="bar")
 #plt.grid(True)

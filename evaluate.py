@@ -41,7 +41,7 @@ class GreedySearchDecoder(nn.Module):
 
 
 # 载入模型和字典
-load_path = "./data/checkpoints/4500_checkpoint.tar"
+load_path = "./data/checkpoints/13500_checkpoint.tar"
 checkpoint = torch.load(load_path, map_location=torch.device("cpu"))
 
 encoder_state_dict = checkpoint["encoder"]
@@ -63,10 +63,10 @@ embedding.load_state_dict(embedding_state_dict)
 
 encoder = EncoderRNN(hidden_size=hidden_size,
                                           embedding=embedding,
-                                          n_layer=encoder_n_layers,
+                                          n_layers=encoder_n_layers,
                                           dropout=dropout)
 
-decoder = LuongAttentionDecoderRNN(score_name="concat",
+decoder = LuongAttentionDecoderRNN(score_name="dot",
                                                                     embedding=embedding,
                                                                     hidden_size=hidden_size,
                                                                     output_size=voc_dict["num_words"],

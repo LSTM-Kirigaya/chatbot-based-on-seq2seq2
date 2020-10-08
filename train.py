@@ -170,10 +170,10 @@ embedding = torch.nn.Embedding(num_embeddings=voc.num_words,
 # 获取encoder和decoder
 encoder = EncoderRNN(hidden_size=hidden_size,
                                           embedding=embedding,
-                                          n_layer=encoder_n_layers,
+                                          n_layers=encoder_n_layers,
                                           dropout=dropout)
 
-decoder = LuongAttentionDecoderRNN(score_name="concat",
+decoder = LuongAttentionDecoderRNN(score_name="dot",
                                                                     embedding=embedding,
                                                                     hidden_size=hidden_size,
                                                                     output_size=voc.num_words,
@@ -196,10 +196,13 @@ def Triangular2(T_max, gamma):
 
 
 # 定义优化器学习率的衰减策略
-encoder_lr_scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer=encoder_optimizer,
-                                                                                                   lr_lambda=Triangular2(T_max=300, gamma=0.5))
-decoder_lr_scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer=decoder_optimizer,
-                                                                                                   lr_lambda=Triangular2(T_max=300, gamma=0.5))
+# encoder_lr_scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer=encoder_optimizer,
+# #                                                                                                    lr_lambda=Triangular2(T_max=300, gamma=0.5))
+# # decoder_lr_scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer=decoder_optimizer,
+# #                                                                                                    lr_lambda=Triangular2(T_max=300, gamma=0.5))
+
+encoder_lr_scheduler = None
+decoder_lr_scheduler = None
 
 
 global_step = 0
@@ -246,8 +249,8 @@ for epoch in range(epoch_num):
                 "decoder" : decoder.state_dict(),
                 "encoder_optimizer" : encoder_optimizer.state_dict(),
                 "decoder_optimizer" : decoder_optimizer.state_dict(),
-                "encoder_lr_scheduler" : encoder_lr_scheduler.state_dict(),
-                "decoder_lr_scheduler" : decoder_lr_scheduler.state_dict(),
+                # "encoder_lr_scheduler" : encoder_lr_scheduler.state_dict(),
+                # "decoder_lr_scheduler" : decoder_lr_scheduler.state_dict(),
                 "loss" : loss,
                 "voc_dict" : voc.__dict__,
                 "embedding" : embedding.state_dict()
