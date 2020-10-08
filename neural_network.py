@@ -1,4 +1,4 @@
-# net.py
+# neural_network.py
 import torch
 import torch.nn as nn
 
@@ -193,8 +193,7 @@ class LuongAttentionDecoderRNN(nn.Module):
 
 if __name__ == "__main__":
     embedding = nn.Embedding(num_embeddings=10, embedding_dim=16)
-    encoder = EncoderRNN(hidden_size=16, embedding=embedding, n_layer=1, dropout=0)
-
+    # encoder = EncoderRNN(hidden_size=16, embedding=embedding, n_layer=1, dropout=0)
     decoder = LuongAttentionDecoderRNN(score_name="dot", embedding=embedding, hidden_size=16, output_size=10, n_layers=1, dropout=0)
 
     x = torch.tensor([[2], [2]])
@@ -203,4 +202,6 @@ if __name__ == "__main__":
 
     #outputs, hidden = encoder.forward(input_seq=x, input_length=length)
 
-    decoder.forward(input_single_seq=x, last_hidden=None, encoder_output=out)
+    output, current_hidden = decoder.forward(input_single_seq=x, last_hidden=None, encoder_output=out)
+    print(f"output : {output}")
+    print(f"current_hidden : {current_hidden}")
