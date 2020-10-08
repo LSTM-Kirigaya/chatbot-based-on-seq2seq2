@@ -42,6 +42,7 @@ class GreedySearchDecoder(nn.Module):
 
 # 载入模型和字典
 load_path = "./data/checkpoints/13500_checkpoint.tar"
+# 模型有可能是在gpu上训练的，需要先把模型参数转换成cpu可以运算的类型
 checkpoint = torch.load(load_path, map_location=torch.device("cpu"))
 
 encoder_state_dict = checkpoint["encoder"]
@@ -76,6 +77,7 @@ decoder = LuongAttentionDecoderRNN(score_name="dot",
 encoder.load_state_dict(encoder_state_dict)
 decoder.load_state_dict(decoder_state_dict)
 
+# 设为评估模式，网络参数停止更新
 encoder.eval()
 decoder.eval()
 
